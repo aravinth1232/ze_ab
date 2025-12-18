@@ -6,6 +6,7 @@ const companySchema = new mongoose.Schema({
     
     companyId: {
         type: Number,
+        unique: true,
         
     },
   

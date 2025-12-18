@@ -27,7 +27,7 @@ export const createCompany = async (req, res) => {
 export const getCompanies = async (req, res) => {
   try {
     const companies = 
-    await Company.find().select('companyId companyName');
+    await Company.find().select('companyId companyName -_id');
 
     res.status(200).json({
         success: true,
