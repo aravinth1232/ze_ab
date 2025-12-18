@@ -3,15 +3,21 @@ import Company from "../models/Company.js";
 
 export const createCompany = async (req, res) => {
   try {
-    const { name, address, industry } = req.body;
+    const { companyName } = req.body;
 
-    if (!name || !address || !industry) {
+    if (!companyName ) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const newCompany = new Company({ name, address, industry });
+    const lastCompany = await Company.findOne().sort({ companyId: -1 });
+    const companyId = lastCompany ? lastCompany.companyId + 1 : 1;
+
+    const newCompany = new Company({ companyId, companyName });
     await newCompany.save();
-    res.status(201).json(newCompany);
+    res.status(201).json({
+        success: true,
+        data: newCompany,
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });
   } 
@@ -20,11 +26,18 @@ export const createCompany = async (req, res) => {
 
 export const getCompanies = async (req, res) => {
   try {
-    const companies = await Company.find();
+    const companies = 
+    await Company.find().select('companyId companyName');
 
-    res.status(200).json(companies);
+    res.status(200).json({
+        success: true,
+        data: companies
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    res.status(500).json(
+        {  success : 'false', 
+          message: error.message 
+        });
   }
 };
 

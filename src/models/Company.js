@@ -2,26 +2,32 @@ import mongoose from "mongoose";
 
 
 const companySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,  
-},
-    address: {
-    type: String,
-    required: true,
-  },
-    industry: { 
-    type: String,
-    required: true,
-  },
+    
+    
+    companyId: {
+        type: Number,
+        
+    },
   
+    companyName: {
+        type: String,
+        required: true,
+        unique: true,  
+    },
+    order:{
+        type: Number,
+        default: 0,
 
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+    }, 
 },
-        {
-        timestamps: true,
-        collection : 'companys',
-        },
+    {
+    timestamps: true,
+    collection : 'companys',
+    },
 
 
 
