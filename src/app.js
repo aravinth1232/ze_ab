@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import companyRoutes from './routes/CompanyRoutes.js';
+import authRoutes from './routes/AuthRoutes.js';
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.get('/api', (req, res) => {
 
 
 app.use('/api', companyRoutes);
-
+app.use('/api', authRoutes);
 
 
 
