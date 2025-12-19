@@ -9,10 +9,7 @@ export const createCompany = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const lastCompany = await Company.findOne().sort({ companyId: -1 });
-    const companyId = lastCompany ? lastCompany.companyId + 1 : 1;
-
-    const newCompany = new Company({ companyId, companyName });
+    const newCompany = new Company({ companyName });
     await newCompany.save();
     res.status(201).json({
         success: true,
@@ -27,12 +24,17 @@ export const createCompany = async (req, res) => {
 export const getCompanies = async (req, res) => {
   try {
     const companies = 
-    await Company.find().select('companyId companyName -_id');
+    await Company.find();
+
 
     res.status(200).json({
         success: true,
-        data: companies
+        data: companies.map(company => ({
+            companyId: company._id,
+            companyName: company.companyName
+        }))
     });
+
   } catch (error) {
     res.status(500).json(
         {  success : 'false', 
